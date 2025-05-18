@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "discord.js": "^14.19.3"
+  }
+},
+  "keywords": [
+    "discord.js",
+    "ticket-bot",
+    "domdadev",
+    "ticketbot",
+    "ticket",
+    "discord",
+    "discord-bot"
+  ],
+  "author": "DomdaDev",
+  "license": "MIT",
+  "description": "Tento Discord bot vytvoří ticketový systém pro nábor do frakce na FiveM RP serveru"
