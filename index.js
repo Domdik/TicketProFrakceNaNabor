@@ -53,25 +53,25 @@ client.on(Events.InteractionCreate, async interaction => {
 
     const nameInput = new TextInputBuilder()
       .setCustomId('ingame_name')
-      .setLabel('Vaše Jméno (např. Karel Vrták)')
+      .setLabel('RP Jméno (např. Karel Vrták)')
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
     const ageInput = new TextInputBuilder()
       .setCustomId('vek_postavy')
-      .setLabel('Váš Věk')
+      .setLabel('Věk postavy')
       .setStyle(TextInputStyle.Short)
       .setRequired(true);
 
     const motivationInput = new TextInputBuilder()
       .setCustomId('motivace')
-      .setLabel('Proč se chcete u nás stát mechanikem?')
+      .setLabel('Proč se chceš stát mechanikem?')
       .setStyle(TextInputStyle.Paragraph)
       .setRequired(true);
 
     const experienceInput = new TextInputBuilder()
       .setCustomId('zkusenosti')
-      .setLabel('Zkušenosti s prací v autoservisu?')
+      .setLabel('Zkušenosti s RP a prací v autoservisu?')
       .setStyle(TextInputStyle.Paragraph)
       .setRequired(true);
 
@@ -134,21 +134,32 @@ client.on(Events.InteractionCreate, async interaction => {
       return interaction.reply({ content: '⛔ Nemáš oprávnění zavřít ticket.', ephemeral: true });
     }
 
-    await interaction.reply({ content: '🔒 Ticket bude archivován za 5 sekund.', ephemeral: true });
+    await interaction.reply({ content: '📁 Ticket bude archivován za 5 sekund.', ephemeral: true });
 
     setTimeout(async () => {
+      const originalName = interaction.channel.name;
+      const archivedName = originalName.replace(/^ticket-/, '') + '-archiv';
+
+      await interaction.channel.setName(archivedName);
+      await interaction.channel.permissionOverwrites.edit(interaction.channel.topic, {
+        SendMessages: false,
+        ViewChannel: true
+      });
+      await interaction.channel.permissionOverwrites.edit(SUPPORT_ROLE_ID, {
+        SendMessages: false,
+        ViewChannel: true
+      });
+
       const logChannel = await interaction.guild.channels.fetch(LOG_CHANNEL_ID);
       if (logChannel) {
         const logEmbed = new EmbedBuilder()
           .setTitle('📁 Ticket archivován')
-          .setDescription(`Ticket <#${interaction.channel.id}> byl uzavřen.`)
+          .setDescription(`Ticket <#${interaction.channel.id}> byl archivován jako **${archivedName}**.`)
           .setColor('#888888')
           .setTimestamp();
 
         await logChannel.send({ embeds: [logEmbed] });
       }
-
-      await interaction.channel.delete().catch(console.error);
     }, 5000);
   }
 });
