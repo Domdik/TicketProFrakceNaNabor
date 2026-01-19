@@ -49,8 +49,8 @@ Jednoho dne kdy jsem vlastnil s kamarádem frakci Benny's tak jsem se rozhodl ud
 <!-- TODOLIST -->
 ## Menší To Do List do budoucna
 
-- [✔️] Ticket se bude ukládat při uzavření
-- [✔️] Transcript
+- [x] Ticket se bude ukládat při uzavření
+- [x] Transcript
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
